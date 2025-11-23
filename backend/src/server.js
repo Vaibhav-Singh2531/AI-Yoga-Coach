@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 // Middleware
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(cookieParser()); // 👈 ADD THIS LINE
 app.use(cors({
@@ -22,8 +23,6 @@ app.use(cors({
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
-
-
 
 
 // Routes

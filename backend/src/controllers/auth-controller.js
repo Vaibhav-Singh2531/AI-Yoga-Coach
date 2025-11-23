@@ -31,6 +31,7 @@ const signup = async (req, res) => {
       _id: newUser._id,
       fullName: newUser.fullName,
       email: newUser.email,
+      message: "Account Created successfully"
     });
 
   } catch (error) {
