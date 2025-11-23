@@ -35,6 +35,7 @@ const Login = () => {
       console.log(response);
 
       if (response.ok) {
+        localStorage.setItem("userId", data._id);
         navigate("/dashboard");
       } else {
         toast.error(data.message);
