@@ -11,6 +11,7 @@ import GenerateProgram from "./pages/GenerateProgram";
 import PlanDetail from "./pages/PlanDetail";
 import NotFound from "./pages/NotFound";
 import ExerciseView from "./pages/ExerciseView";
+import Signin from "./pages/Signin";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<Signin />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/generate-program" element={<GenerateProgram />} />
             <Route path="/plan/:id" element={<PlanDetail />} />

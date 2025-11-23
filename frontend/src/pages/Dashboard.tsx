@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useNavigate } from "react-router-dom";
-import { LogOut, User, Settings, Video, Plus } from "lucide-react";
+import { LogOut, User, Settings, Bot, Plus } from "lucide-react";
 import { useEffect } from "react";
 import { usePlanStore } from "../stores/usePlanStore";
 
@@ -23,6 +23,16 @@ const Dashboard = () => {
   const handleCreateProgram = () => {
     navigate("/generate-program");
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex flex-col items-center justify-center space-y-6">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-muted-foreground text-lg">Loading your dashboard...</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="min-h-screen bg-gradient-hero">
@@ -128,17 +138,17 @@ const Dashboard = () => {
             <Card className="bg-gradient-card border-sage-light/20 shadow-medium">
               <CardHeader>
                 <CardTitle className="text-2xl flex items-center justify-center space-x-2">
-                  <Video className="h-6 w-6 text-primary" />
+                  <Bot className="h-6 w-6 text-primary" />
                   <span>Generate Your First Program</span>
                 </CardTitle>
                 <CardDescription>
-                  Have a voice conversation with our AI assistant to create your personalized plan
+                  Have a conversation with our AI assistant to create your personalized plan
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="flex justify-center">
                   <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center">
-                    <Video className="h-12 w-12 text-primary" />
+                    <Bot className="h-12 w-12 text-primary" />
                   </div>
                 </div>
 
@@ -147,8 +157,8 @@ const Dashboard = () => {
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   size="lg"
                 >
-                  <Video className="h-5 w-5 mr-2" />
-                  Start Video Chat with AI Instructor
+                  <Bot className="h-5 w-5 mr-2" />
+                  Chat with AI Instructor
                 </Button>
               </CardContent>
             </Card>

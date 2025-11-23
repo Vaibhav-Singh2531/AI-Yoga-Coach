@@ -11,16 +11,19 @@ import { Pose, Results, POSE_CONNECTIONS } from '@mediapipe/pose';
 import * as cam from '@mediapipe/camera_utils';
 import { drawConnectors, drawLandmarks } from '@mediapipe/drawing_utils';
 import * as tf from '@tensorflow/tfjs';
+import { usePlanStore } from "../stores/usePlanStore";
+import { useNavigate } from 'react-router-dom';
+
 
 type PoseAngleKey =
   | 'leftElbow'
-  | 'rightElbow'
-  | 'leftShoulder'
-  | 'rightShoulder'
-  | 'leftKnee'
-  | 'rightKnee'
   | 'leftHip'
-  | 'rightHip';
+  | 'leftKnee'
+  | 'leftShoulder'
+  | 'rightElbow'
+  | 'rightHip'
+  | 'rightKnee'
+  | 'rightShoulder';
 
 type PoseAngles = Record<PoseAngleKey, number>;
 
@@ -45,31 +48,36 @@ interface PoseLandmark {
   y: number;
 }
 
+interface ModelProps {
+  planId: string;
+  poseId: string;
+}
+
 const COUNTDOWN_START = 10;
 const TARGET_ACCURACY = 65;
 const FEEDBACK_THRESHOLD = 20;
 
-const CompareItLive: React.FC = () => {
+const CompareItLive: React.FC<ModelProps> = ({ planId, poseId }) => {
+
+
+
+  const navigate = useNavigate();
   const webcamRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const cameraRef = useRef<cam.Camera | null>(null);
   const poseRef = useRef<Pose | null>(null);
   const isExerciseCompletedRef = useRef<boolean>(false);
+  const { refPose, angles, markDone } = usePlanStore();
+
 
   const referencePose = useMemo<PoseData>(() => ({
-    angles: {
-      leftElbow: 168.67,
-      rightElbow: 174.81,
-      leftShoulder: 118.91,
-      rightShoulder: 69.88,
-      leftKnee: 176.73,
-      rightKnee: 169.27,
-      leftHip: 179.78,
-      rightHip: 162.89,
-    },
+    angles: angles?.result?.angles,
     timestamp: Date.now(),
   }), []);
+
+  // refPose(id);
+  // console.log("Angles of pose",angles.result.angles);
 
   const [currentPose, setCurrentPose] = useState<PoseData | null>(null);
   const [comparisonResult, setComparisonResult] = useState<PoseComparison | null>(null);
@@ -102,6 +110,25 @@ const CompareItLive: React.FC = () => {
       console.error('Failed to initialize pose estimation:', error);
     });
   }, []);
+
+  useEffect(() => {
+    if (showSuccessMessage) {
+      const result = markDone(planId, poseId);
+
+      if (result) {
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000); 
+      }
+    }
+  }, [showSuccessMessage]);
+
+
+  if (!angles) {
+    return <>Wating for data to fetch </>
+  }
+
+  console.log("Reference pose", referencePose);
 
   const initializePose = () => {
     const pose = new Pose({
@@ -236,7 +263,7 @@ const CompareItLive: React.FC = () => {
           isExerciseCompletedRef.current = true;
           setIsExerciseCompleted(true);
           setFeedback('Exercise completed! Great job!');
-          
+
           // Stop the camera
           if (cameraRef.current) {
             cameraRef.current.stop();

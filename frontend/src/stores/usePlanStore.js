@@ -34,11 +34,12 @@ export const usePlanStore = create((set) => ({
         }
     },
 
-    referencePose: async (poseId) => {
-        set({ isLoading: true, error: null });
+    refPose: async (poseId) => {
+        set({ isLoading: true, error: null , });
 
         try {
             const response = await axiosInstance.get(`/dashboard/reference/${poseId}`);
+            console.log("Zustand log :",response.data);
             set({ angles: response.data });
         } catch (error) {
             set({ error: error.message });
@@ -46,5 +47,24 @@ export const usePlanStore = create((set) => ({
             set({ isLoading: false });
 
         }
+    },
+
+    markDone: async (planId,poseId) => {
+        set({ isLoading: true, error: null  });
+
+        try {
+            const response = await axiosInstance.post(`/dashboard/${planId}/${poseId}`);
+            console.log("Zustand log :",response);
+            return true;
+        } catch (error) {
+            set({ error: error.message });
+        } finally {
+            set({ isLoading: false });
+
+        }
+    },
+
+    resetAngles: () => {
+        set({angles: null})
     }
 }));

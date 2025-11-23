@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 
 const ExerciseView = () => {
-  const { angles, isLoading, referencePose } = usePlanStore();
+  const { angles, isLoading, refPose } = usePlanStore();
 
 
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const ExerciseView = () => {
   const pose = location.state?.pose;
 
   useEffect(() => {
-    referencePose(poseId);
+    refPose(poseId);
   },[]);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const ExerciseView = () => {
   })
 
   console.log("POSSSEEEEEEEEEEEEEEEEE",pose);
-  console.log("POSSSEEEEE",pose.pose.difficulty);
+  console.log("POSSSEEEEE",pose.poseId);
 
   if (!pose) {
     return <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
@@ -42,6 +42,15 @@ const ExerciseView = () => {
         </Card>
       </div>;
   }
+  if (!angles) {
+    return (
+      <div className="min-h-screen bg-gradient-hero flex flex-col items-center justify-center space-y-6">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-muted-foreground text-lg">Loading your Pose...</p>
+      </div>
+    );
+  }
+
   return <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
       <header className="border-b border-sage-light/20 bg-card/80 backdrop-blur-sm">
@@ -64,7 +73,7 @@ const ExerciseView = () => {
           {/* Camera Feed with Pose Comparison */}
           <Card className="overflow-hidden">
             <CardContent className="p-0">
-              <CompareItLive />
+              <CompareItLive planId={planId} poseId={poseId} />
             </CardContent>
           </Card>
 
@@ -75,7 +84,8 @@ const ExerciseView = () => {
             </CardHeader>
             <CardContent>
               <div className="aspect-square bg-sage-light/20 rounded-lg flex items-center justify-center">
-                <p className="text-muted-foreground text-sm">Pose illustration</p>
+                {/* <p className="text-muted-foreground text-sm">Pose illustration</p> */}
+                <img src={pose.pose.image_url} />
               </div>
             </CardContent>
           </Card>

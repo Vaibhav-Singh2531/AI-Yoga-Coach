@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -9,39 +15,43 @@ import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Signin = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple validation for demo - in real app you'd authenticate
-    if (email && password) {
 
-      const user = { email: email, password: password };
+    if (fullName && email && password) {
+      const newUser = {
+        fullName,
+        email,
+        password,
+      };
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}auth/login`, {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3000/api/auth/signup`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
         credentials: "include",
-      })
+        body: JSON.stringify(newUser),
+      });
 
       const data = await response.json();
 
-      console.log(response);
-
       if (response.ok) {
+        toast.success("Account created successfully!");
         localStorage.setItem("userId", data._id);
         navigate("/dashboard");
+        
       } else {
         toast.error(data.message);
       }
-
     }
   };
 
@@ -63,16 +73,34 @@ const Login = () => {
         <ThemeToggle />
       </div>
 
-      {/* Login Card */}
+      {/* Signup Card */}
       <Card className="w-full max-w-md bg-gradient-card border-sage-light/20 shadow-strong">
         <CardHeader className="text-center space-y-2">
-          <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
+          <CardTitle className="text-3xl font-bold">Create Account</CardTitle>
           <CardDescription className="text-muted-foreground">
-            Continue your journey to inner peace
+            Start your journey to inner peace
           </CardDescription>
         </CardHeader>
+
         <CardContent className="space-y-6">
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-4">
+            {/* Full Name */}
+            <div className="space-y-2">
+              <Label htmlFor="fullName" className="text-sm font-medium">
+                Full Name
+              </Label>
+              <Input
+                id="fullName"
+                type="text"
+                placeholder="Your full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full bg-background/50 border-sage-light/30 focus:border-primary transition-colors"
+                required
+              />
+            </div>
+
+            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">
                 Email
@@ -88,6 +116,7 @@ const Login = () => {
               />
             </div>
 
+            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium">
                 Password
@@ -96,7 +125,7 @@ const Login = () => {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-background/50 border-sage-light/30 focus:border-primary transition-colors pr-10"
@@ -122,38 +151,18 @@ const Login = () => {
               type="submit"
               className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 shadow-medium hover:shadow-strong transition-all duration-300"
             >
-              Sign In
+              Sign Up
             </Button>
           </form>
 
-          <div className="text-center space-y-4">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-sage-light/30" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" className="border-sage-light/30 hover:bg-sage-light/10">
-                Google
+          <p className="text-sm text-muted-foreground text-center">
+            Already have an account?{" "}
+            <Link to="/login">
+              <Button variant="link" className="p-0 text-primary hover:underline">
+                Sign in here
               </Button>
-              <Button variant="outline" className="border-sage-light/30 hover:bg-sage-light/10">
-                Apple
-              </Button>
-            </div>
-
-            <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/signin">
-                <Button variant="link" className="p-0 text-primary hover:underline">
-                  Sign up here
-                </Button>
-              </Link>
-            </p>
-          </div>
+            </Link>
+          </p>
         </CardContent>
       </Card>
 
@@ -164,4 +173,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signin;

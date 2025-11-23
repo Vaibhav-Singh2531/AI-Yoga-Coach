@@ -13,10 +13,11 @@ const PlanDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const { singlePlan, isLoading, getPlanDetails } = usePlanStore();
+  const { singlePlan, isLoading, getPlanDetails, resetAngles } = usePlanStore();
 
   useEffect(() => {
     getPlanDetails(id);
+    resetAngles();
   }, [id]);
 
   const handleStartExercise = (pose) => {
