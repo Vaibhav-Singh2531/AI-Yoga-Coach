@@ -15,14 +15,12 @@ const allPlans = async (req, res) => {
 
     return res.status(200).json({ plan: result });
   } catch (error) {
-    console.error("Error fetching plans:", error);
     return res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
 
 const createPlan = async (req, res) => {
-    console.log("REQ BODY =", req.body);
 
     // In your createPlan controller...
     const { user_id, title, exercises } = req.body; // 'exercises' is ["1", "15", "22"]
@@ -41,7 +39,6 @@ const createPlan = async (req, res) => {
     });
 
     await newPlan.save();
-    console.log("Plan saved successfully");
     return res.status(200).json({ message: newPlan });
     // ... send response
 }
@@ -50,7 +47,6 @@ const createPlan = async (req, res) => {
 // ...
 
 const getPlanDetails = async (req, res) => {
-    console.log("first")
     try {
         // 1. Get the plan document
         const plan = await Plan.findById(req.params.planId).lean(); // .lean() makes it faster
@@ -90,7 +86,6 @@ const getPlanDetails = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: error });
     }
 };
@@ -110,7 +105,6 @@ const markDone = async (req, res) => {
 
         res.status(200).json({ message: "Exercise marked as completed successfully" });
     } catch (error) {
-        console.error("Error updating exercise:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -129,7 +123,6 @@ const getReferencePose = async (req , res) => {
 
         return res.status(200).json({result});
     } catch (error) {
-        console.log(error);
         res.status(500).json({message:error});
     }
 }

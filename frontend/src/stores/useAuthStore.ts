@@ -47,7 +47,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const errorMsg = err?.response?.data?.message || err?.message || "Login failed. Please try again.";
       set({ error: errorMsg, isLoading: false });
       toast.error(errorMsg);
-      console.error("Login error:", errorMsg);
       return null;
     }
   },
@@ -76,7 +75,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const errorMsg = err?.response?.data?.message || err?.message || "Signup failed. Please try again.";
       set({ error: errorMsg, isLoading: false });
       toast.error(errorMsg);
-      console.error("Signup error:", errorMsg);
       return null;
     }
   },
@@ -97,7 +95,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       const errorMsg = err?.response?.data?.message || err?.message || "Logout failed. Please try again.";
       set({ error: errorMsg, isLoading: false });
       toast.error(errorMsg);
-      console.error("Logout error:", errorMsg);
     }
   },
 }));

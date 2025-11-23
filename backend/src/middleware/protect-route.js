@@ -14,12 +14,10 @@ const protectRoute = (req, res, next) => {
 
     // 3️⃣ Attach userId to request object
     req.userId = decoded.userId;
-    console.log(req.userId);
 
     // 4️⃣ Continue to the next middleware or route handler
     next();
   } catch (error) {
-    console.error('Token verification failed:', error.message);
     return res.status(401).json({ message: 'Not authorized, invalid token' });
   }
 };

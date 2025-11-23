@@ -18,6 +18,7 @@ app.use(cookieParser()); // 👈 ADD THIS LINE
 app.use(cors({
   origin: [
     "http://localhost:8080",   // your frontend
+    "https://ai-yoga-coach.vercel.app/",
     "https://typebot.io"       // TypeBot client requests
   ],
   credentials: true,

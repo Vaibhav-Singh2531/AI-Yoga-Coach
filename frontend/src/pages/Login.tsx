@@ -33,7 +33,6 @@ const Login = () => {
 
       const data = await response.json();
 
-      console.log(response);
 
       if (response.ok) {
         localStorage.setItem("userId", data._id);

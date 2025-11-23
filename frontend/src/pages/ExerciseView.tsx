@@ -23,13 +23,6 @@ const ExerciseView = () => {
     refPose(poseId);
   },[]);
 
-  useEffect(() => {
-    // console.log("Angles: ",angles);
-  })
-
-  console.log("POSSSEEEEEEEEEEEEEEEEE",pose);
-  console.log("POSSSEEEEE",pose.poseId);
-
   if (!pose) {
     return <div className="min-h-screen bg-gradient-hero flex items-center justify-center">
         <Card>

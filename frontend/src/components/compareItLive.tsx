@@ -77,7 +77,6 @@ const CompareItLive: React.FC<ModelProps> = ({ planId, poseId }) => {
   }), []);
 
   // refPose(id);
-  // console.log("Angles of pose",angles.result.angles);
 
   const [currentPose, setCurrentPose] = useState<PoseData | null>(null);
   const [comparisonResult, setComparisonResult] = useState<PoseComparison | null>(null);
@@ -128,7 +127,6 @@ const CompareItLive: React.FC<ModelProps> = ({ planId, poseId }) => {
     return <>Wating for data to fetch </>
   }
 
-  console.log("Reference pose", referencePose);
 
   const initializePose = () => {
     const pose = new Pose({

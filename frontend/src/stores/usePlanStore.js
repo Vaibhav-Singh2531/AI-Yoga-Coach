@@ -39,7 +39,6 @@ export const usePlanStore = create((set) => ({
 
         try {
             const response = await axiosInstance.get(`/dashboard/reference/${poseId}`);
-            console.log("Zustand log :",response.data);
             set({ angles: response.data });
         } catch (error) {
             set({ error: error.message });
@@ -54,7 +53,6 @@ export const usePlanStore = create((set) => ({
 
         try {
             const response = await axiosInstance.post(`/dashboard/${planId}/${poseId}`);
-            console.log("Zustand log :",response);
             return true;
         } catch (error) {
             set({ error: error.message });

@@ -27,7 +27,6 @@ const { id,angles } = req.body;
  res.status(201).json(newPose);
 
  } catch (err) {
- console.error(err.message);
  if (err.name === 'ValidationError') {
  return res.status(400).json({ msg: err.message });
  }
