@@ -15,10 +15,14 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser()); // 👈 ADD THIS LINE
 app.use(cors({
-  origin: "*",
-  credentials: true
-
+  origin: [
+    "http://localhost:8080",   // your frontend
+    "https://typebot.io"       // TypeBot client requests
+  ],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 
 
