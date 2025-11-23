@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/getPlans",protectRoute ,allPlans);
 router.get("/get/:id/:planid", getPlanDetails);
-router.post("/:id/:planid", markDone);
+router.post("/:planId/:poseId", markDone);
 router.post("/check",createPlan);
 router.get("/:planId",getPlanDetails);
 router.get("/reference/:id",getReferencePose);

@@ -99,13 +99,12 @@ const markDone = async (req, res) => {
     const { planId, poseId } = req.params;
 
     try {
-        // Update the specific exercise's isCompleted to true
         const result = await Plan.updateOne(
-            { _id: planId, "exercises.poseId": poseId },
+            { _id: planId, "exercises.poseId": poseId.toString() },
             { $set: { "exercises.$.isCompleted": true } }
         );
 
-        if (result.matchedCount === 0) {
+        if (result.modifiedCount === 0) {
             return res.status(404).json({ message: "Plan or exercise not found" });
         }
 
@@ -114,7 +113,9 @@ const markDone = async (req, res) => {
         console.error("Error updating exercise:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
-}
+};
+
+
 
 const getReferencePose = async (req , res) => {
     const {id} = req.params;
