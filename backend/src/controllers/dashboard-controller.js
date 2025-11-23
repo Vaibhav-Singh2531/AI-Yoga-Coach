@@ -22,6 +22,8 @@ const allPlans = async (req, res) => {
 
 
 const createPlan = async (req, res) => {
+    console.log("REQ BODY =", req.body);
+
     // In your createPlan controller...
     const { user_id, title, exercises } = req.body; // 'exercises' is ["1", "15", "22"]
 
